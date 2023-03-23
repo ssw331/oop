@@ -58,7 +58,7 @@ public:
 	Point(const string& obj);
 	//构造函数隐式转换实现：
     // 类名(const 指定数据类型& obj)
-    // 可以在类内用explicit关键字来禁止构造函数的隐式转换
+    // 可以在类内对构造函数用explicit关键字来禁止构造函数的隐式转换
 }p{ 10,10 };//如果类本身的成员函数都是公共的，那么可以用大括号直接初始化
 
 void haha::helloworld(int a,const haha& b)//如果不希望引用/指针的内容被改写，const关键词可以防止在函数体内改写数据
