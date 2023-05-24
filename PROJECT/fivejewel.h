@@ -35,6 +35,7 @@ private:
 public:
 	jewel();
 	jewel(int x, int y);
+	jewel(const jewel& j);
 	int check_score(jewel J[],map& M, int& itr);
 	int random_color();
 	int get_j_position_x();
@@ -43,7 +44,6 @@ public:
 	void set_new_color(int COLOR);
 	int get_color();
 	int be_gotten(ExMessage m);
-	int be_gotten(int x, int y);
 	void print_j();
 };
 
@@ -57,7 +57,6 @@ public:
 	board(int x, int y);
 	int get_board_size(int xory);
 	void be_choosen(int& ch_x, int& ch_y, ExMessage m);
-	int be_choosen(int ch_x, int ch_y);
 };
 
 class windows
@@ -112,6 +111,7 @@ public:
 	void renew(jewel J[], int n);
 	bool BFS(int st_x, int st_y, int end_x, int end_y, jewel& j);
 	void printway(int st_x, int st_y, int color);
+	~map();
 };
 
 void random_create_jewels(jewel J[], int& j, int create_num);

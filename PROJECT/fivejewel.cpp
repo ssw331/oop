@@ -13,21 +13,6 @@ unsigned int seed = time(0);
 
 int main()
 {
-	//int mode = 0;  // 模式切换 默认鼠标
-	//cout << "请选择游玩模式：0 鼠标;1 键盘" << endl;
-	//cout << "你的选择是:";
-	//while (1)
-	//{ 
-	//	cin >> mode;
-	//	if (mode > 1 || !cin.good())
-	//	{
-	//		cin.clear();
-	//		cin.ignore(999, '\n');
-	//		cout << "无此模式，请重新输入。" << endl;
-	//	}
-	//	else
-	//		break;
-	//}
 	initgraph(DEFAULTCOL * CELL + 500, DEFAULTCOL * CELL);
 reset:
 	board B(DEFAULTCOL, DEFAULTCOL);
@@ -47,18 +32,9 @@ reset:
 		ExMessage m;
 		m = getmessage(EX_MOUSE | EX_KEY);
 
-		//if (mode)
-		//{
-		//	settextcolor(BLACK);
-		//	RECT r = { (DEFAULTCOL + 1) * CELL, 4 * CELL + CELL, (DEFAULTCOL + 5) * CELL + 3 * CELL, 4 * CELL + 2 * CELL };
-		//	drawtext(_T("                                                    "), &r, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
-		//	settextcolor(WHITE);
-		//	drawtext(_T("列号：0-9；行号：A-I。请依次输入起始位置的列号与行号"), &r, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
-		//}
-
-		for (int i = 0; i < DEFAULTCOL * DEFAULTCOL; i++)
+		for (int i = 0; i < DEFAULTCOL * DEFAULTCOL; i++)//查询是否选中了已存在的珠子
 		{
-			if (J[i].be_gotten(m) == 1 && st_x < 0 && st_y < 0)
+			if (J[i].be_gotten(m) == 1 && st_x < 0 && st_y < 0)//左键选中
 			{
 				setlinecolor(WHITE);
 				st_x = J[i].get_j_position_x();
@@ -67,7 +43,7 @@ reset:
 				index = i;
 				break;
 			}
-			else if (J[i].be_gotten(m) == 2 && st_x >= 0 && st_y >= 0)
+			else if (J[i].be_gotten(m) == 2 && st_x >= 0 && st_y >= 0)//右键取消选中
 			{
 				setlinecolor(J[i].get_color());
 				circle(J[i].get_j_position_x() * 50 + JEWELST, J[i].get_j_position_y() * 50 + JEWELST, 12);
@@ -77,93 +53,25 @@ reset:
 				break;
 			}
 		}
-		//if (mode) // 键盘模块
-		//{
-		//	int f = 0;
-		//	do
-		//	{
-		//		if ((m.vkcode <= '8' && m.vkcode >= '0'))
-		//		{
-		//			st_x = m.vkcode - '0';
-		//		}
-		//		else if ((m.vkcode >= 'A' && m.vkcode <= 'I'))
-		//		{
-		//			st_y = m.vkcode - 'A';
-		//		}
-		//		else if ((m.vkcode >= 'a' && m.vkcode <= 'i'))
-		//		{
-		//			st_y = m.vkcode - 'a';
-		//		}
-		//		for (int i = 0; i < DEFAULTCOL * DEFAULTCOL; i++)
-		//		{
-		//			if (J[i].be_gotten(st_x, st_y) == 1)
-		//			{
-		//				setlinecolor(WHITE);
-		//				circle(st_x * 50 + JEWELST, st_y * 50 + JEWELST, 12);
-		//				index = i;
-		//				f = 1;
-		//			}
-		//		}
-		//	} while (!f);
-
-		//	settextcolor(BLACK);
-		//	RECT r = { (DEFAULTCOL + 1) * CELL, 4 * CELL + CELL, (DEFAULTCOL + 1) * CELL + 3 * CELL, 4 * CELL + 2 * CELL };
-		//	drawtext(_T("                                                    "), &r, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
-		//	settextcolor(WHITE);
-		//	drawtext(_T("列号：0-9；行号：A-I。请依次输入目标位置的列号与行号"), &r, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
-		//	do
-		//	{
-		//		if ((m.vkcode <= '8' && m.vkcode >= '0'))
-		//		{
-		//			ch_x = m.vkcode - '0';
-		//		}
-		//		else if ((m.vkcode >= 'A' && m.vkcode <= 'I'))
-		//		{
-		//			ch_y = m.vkcode - 'A';
-		//		}
-		//		else if ((m.vkcode >= 'a' && m.vkcode <= 'i'))
-		//		{
-		//			ch_y = m.vkcode - 'a';
-		//		}
-		//	} while (!B.be_choosen(ch_x, ch_y));
-		//	bool flag = M.BFS(st_x, st_y, ch_x, ch_y, J[index]);
-		//	st_x = st_y = -1;
-		//	ch_x = ch_y = -1;
-		//	int add = J[index].check_score(J, M, itr);
-		//	if (add)
-		//	{
-		//		W_S.addscore(add);
-		//		W_S.refresh();
-		//		M.renew(J, itr);
-		//	}
-		//	else if (flag)
-		//	{
-		//		W.add_jewel(J, itr);
-		//		cout << "itr:" << itr << endl;
-		//		M.renew(J, itr);
-		//		W.refresh();
-		//	}
-		//}
-		//else 
-		if (st_x >= 0 && st_y >= 0 && index >= 0)
+		if (st_x >= 0 && st_y >= 0 && index >= 0)//已选中后
 		{
 			if (m.lbutton)
-				B.be_choosen(ch_x, ch_y, m);
+				B.be_choosen(ch_x, ch_y, m);//选中空白区域
 			if(ch_x >= 0 && ch_y >= 0)
 			{
-				bool flag =	M.BFS(st_x, st_y, ch_x, ch_y, J[index]);
+				bool flag =	M.BFS(st_x, st_y, ch_x, ch_y, J[index]);//广度优先搜索 寻路 成功则返回1，否则返回0
 				st_x = st_y = -1;
 				ch_x = ch_y = -1;
-				int add = J[index].check_score(J, M, itr);
+				int add = J[index].check_score(J, M, itr);//检查是否得分并在得分后消去对应珠子
 				if (add)
 				{
-					W_S.addscore(add);
+					W_S.addscore(add);//有得分则加分
 					W_S.refresh();
 					M.renew(J, itr);
 				}
 				else if(flag)
 				{
-					W.add_jewel(J, itr);
+					W.add_jewel(J, itr);//如果寻路成功但没得分则增加珠子
 					cout << "itr:" << itr << endl;
 					M.renew(J, itr);
 					W.refresh();
@@ -171,9 +79,9 @@ reset:
 
 			}
 		}
-		if (m.vkcode == VK_ESCAPE || itr >= 81)
+		if (m.vkcode == VK_ESCAPE || itr >= 81)//按下ESC或珠子占满棋盘则退出游戏
 			break;
-		if (m.vkcode == VK_F5)
+		if (m.vkcode == VK_F5)//按下F5进行棋盘重置
 			goto reset;
 	}
 	closegraph();			// 关闭绘图窗口
@@ -229,11 +137,6 @@ void board::be_choosen(int& ch_x, int& ch_y, ExMessage m)
 		cout << "这里有珠子了！" << endl;
 }
 
-int board::be_choosen(int ch_x, int ch_y)
-{
-	return (getpixel(ch_x * CELL + JEWELST, ch_y * CELL + JEWELST) == WHITE);
-}
-
 Controller::Controller()
 {
 	this->score = 0;
@@ -257,6 +160,13 @@ jewel::jewel(int x, int y)
 	this->j_x = x;
 	this->j_y = y;
 	this->random_color();
+}
+
+jewel::jewel(const jewel& j)
+{
+	this->j_x = j.j_x;
+	this->j_y = j.j_y;
+	this->j_color = j.j_color;
 }
 
 int jewel::check_score(jewel J[], map& M, int& itr)
@@ -312,7 +222,7 @@ int jewel::check_score(jewel J[], map& M, int& itr)
 					cout << "deleting" << endl;
 					J[j].print_j();
 					J[j].set_new_position(-1, -1);
-					itr--;
+					//itr--;
 				}
 			}
 		}
@@ -363,11 +273,6 @@ int jewel::be_gotten(ExMessage m)
 		else if(m.rbutton)
 			return 2;
 	return 0;
-}
-
-int jewel::be_gotten(int x, int y)
-{
-	return this->j_x == x && this->j_y == y;
 }
 
 void jewel::print_j()
@@ -678,5 +583,10 @@ void map::printway(int st_x, int st_y, int color)
 		fillcircle(way_x.top() * CELL + JEWELST, way_y.top() * CELL + JEWELST, 24);
 	}
 	this->m[way_x.top()][way_y.top()] = 1;
+}
+
+map::~map()
+{
+	delete[] this->C;
 }
 
